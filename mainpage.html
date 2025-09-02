@@ -2,35 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Iframe Embed</title>
+  <title>Iframe Embed (Dynamic Slugs)</title>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+    iframe { width:100%; height:100vh; border:none; }
   </style>
 </head>
 <body>
-  <!-- Iframe with a target name -->
-  <iframe id="myFrame" name="myFrame" src="https://comply-finavicfo.com/doct/index"></iframe>
+  <iframe id="myFrame" name="myFrame"></iframe>
 
   <script>
-    // Force all links clicked inside the iframe to stay inside it
     const iframe = document.getElementById("myFrame");
+    const base = "https://comply-finavicfo.com/doct/";
 
-    iframe.addEventListener("load", () => {
-      try {
-        const links = iframe.contentDocument.querySelectorAll("a");
-        links.forEach(link => link.setAttribute("target", "myFrame"));
-      } catch (e) {
-        // If iframe is on another domain without control, browser blocks access (cross-domain security)
-        console.log("Cross-domain protection, cannot rewrite links");
+    // Get ?page= from URL, default to "index"
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("page") || "index";
+
+    // Load iframe
+    iframe.src = base + slug;
+
+    // Listen for messages from inner site
+    window.addEventListener("message", (event) => {
+      if (event.data.slug) {
+        history.replaceState(null, "", "?page=" + event.data.slug);
       }
     });
   </script>
