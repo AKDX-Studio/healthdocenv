@@ -10,7 +10,7 @@
 </head>
 <body>
   <!-- Devise View -->
-  <div class="dView" style="width: 20px; height: 18px; position: fixed; top: 0; right: 16px; color: black; font-size: 13px; background: yellow; font-family: sans-serif; text-align: center; padding: 5px 0;"><b>i</b></div>
+  <div onclick="resizeIframe()" class="dView" style="width: 20px; height: 18px; position: fixed; top: 0; right: 16px; color: black; font-size: 13px; background: yellow; font-family: sans-serif; text-align: center; padding: 5px 0;"><b>i</b></div>
 
   
   
@@ -34,5 +34,24 @@
       }
     });
   </script>
+
+  <script>
+function resizeIframe() {
+  const iframe = document.getElementById("myFrame");
+
+  // Get viewport height in pixels
+  const vh = window.innerHeight;
+
+  // Set iframe height = 100vh
+  const height = vh;
+
+  // Calculate width using 16:9 ratio
+  const width = Math.round(height * (9 / 16));
+
+  // Apply dimensions
+  iframe.style.height = height + "px";
+  iframe.style.width = width + "px";
+}
+</script>
 </body>
 </html>
