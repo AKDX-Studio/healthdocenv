@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AKDX::ENV2025 VersionOne</title>
   <style>
     iframe { width:100%; height:100vh; border:none; }
@@ -13,9 +14,10 @@
   <div onclick="resizeIframe()" class="dView" style="width: 20px; height: 18px; position: fixed; top: 0; right: 16px; color: black; font-size: 13px; background: yellow; font-family: sans-serif; text-align: center; padding: 5px 0;"><b>i</b></div>
 
   
-  
+  <div class="iframeWrap" style="display:flex;">
   <iframe id="myFrame" name="myFrame"></iframe>
-
+</div>
+  
   <script>
     const iframe = document.getElementById("myFrame");
     const base = "https://comply-finavicfo.com/doct/";
