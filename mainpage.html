@@ -36,25 +36,7 @@
   </script>
 
 
-<script>
-function resizeIframe() {
-  const iframe = document.getElementById("myFrame");
 
-  // Slightly scaled down height (90% of viewport height)
-  const height = Math.round(window.innerHeight * 0.9);
-
-  // Maintain 16:9 ratio
-  const width = Math.round(height * (9.54854 / 16));
-
-  iframe.style.height = height + "px";
-  iframe.style.width = width + "px";
-}
-
-
-
-// Also resize dynamically if window is resized
-window.addEventListener("resize", resizeIframe);
-</script>
 
   
 </body>
