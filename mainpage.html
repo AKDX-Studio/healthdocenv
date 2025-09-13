@@ -6,13 +6,47 @@
   <title>AKDX::ENV2025 VersionOne</title>
   <style>
     iframe { width:100%; height:100vh; border:none; }
+     #buttonPanel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+        }
+        
+        #buttonPanel button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+        }
+        
+        #buttonPanel button:hover {
+            background: #0056b3;
+        }
+        
     body {overflow:hidden; margin:0; border:0; padding:0;}
   </style>
 </head>
 <body>
   <!-- Devise View -->
-  <div onclick="resizeIframe()" class="dView" style="width: 20px; height: 18px; position: fixed; top: 0; right: 16px; color: black; font-size: 14px; background: yellow; font-family: sans-serif; text-align: center; padding: 5px 0;"><b>...</b></div>
+  <div onclick="showButtonPanel()" class="dView" style="width: 20px; height: 18px; position: fixed; top: 0; right: 16px; color: black; font-size: 14px; background: yellow; font-family: sans-serif; text-align: center; padding: 5px 0;"><b>...</b></div>
 
+   <!-- Button panel (initially hidden) -->
+    <div id="buttonPanel">
+        <button onclick="setMobileView()">M</button>
+        <button onclick="setTabletView()">T</button>
+        <button onclick="reloadPage()">X</button>
+    </div>
   
   <div class="iframeWrap" style="display:flex;">
   <iframe id="myFrame" name="myFrame"></iframe>
@@ -38,6 +72,56 @@
   </script>
 
 
+<script>
+        function showButtonPanel() {
+            const panel = document.getElementById('buttonPanel');
+            panel.style.display = 'block';
+        }
+        
+        function hideButtonPanel() {
+            const panel = document.getElementById('buttonPanel');
+            panel.style.display = 'none';
+        }
+        
+        function setMobileView() {
+            const iframe = document.getElementById('myFrame');
+            
+            // Apply mobile CSS properties
+            iframe.style.width = '412px';
+            iframe.style.height = '915px';
+            iframe.style.scale = 'calc(.55 * 100%)';
+            iframe.style.margin = '0 auto';
+            iframe.style.position = 'relative';
+            iframe.style.top = '-150px';
+            iframe.style.display = 'flex';
+            
+            // Hide button panel
+            hideButtonPanel();
+        }
+        
+        function setTabletView() {
+            const iframe = document.getElementById('myFrame');
+            
+            // Apply tablet CSS properties
+            iframe.style.width = '1024px';
+            iframe.style.height = '768px';
+            iframe.style.scale = 'calc(.55 * 100%)';
+            iframe.style.margin = '0 auto';
+            iframe.style.position = 'relative';
+            iframe.style.top = '-150px';
+            iframe.style.display = 'flex';
+            
+            // Hide button panel
+            hideButtonPanel();
+        }
+        
+        function reloadPage() {
+            location.reload();
+        }
+        
+        // Example usage: Add this to your element's onclick attribute
+        // <button onclick="showButtonPanel()">Show Controls</button>
+    </script>
 
 
   
