@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Content Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .page {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .active {
+            display: block;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+        }
+        .content-display {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div id="writePage" class="page active">
+        <h1>Write Content</h1>
+        <div id="writeMessage" class="message"></div>
+        <textarea id="contentInput" placeholder="Type your content here..."></textarea>
+        <div>
+            <button onclick="saveContent()">Save Content</button>
+            <button onclick="showPage('readPage')">Go to Read Page</button>
+        </div>
+        <div class="info-message">
+            <p><strong>Note:</strong> This uses your browser's local storage. Content will only be available on this device.</p>
+        </div>
+    </div>
+
+    <div id="readPage" class="page">
+        <h1>Read Content</h1>
+        <div id="readMessage" class="message"></div>
+        <button onclick="loadContent()">Load Content</button>
+        <button onclick="showPage('writePage')">Go to Write Page</button>
+        
+        <div id="contentDisplay" class="content-display" style="display: none; margin-top: 20px;">
+            <h3>Saved Content:</h3>
+            <pre id="displayText"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Show message
+        function showMessage(elementId, message, type) {
+            const messageEl = document.getElementById(elementId);
+            messageEl.textContent = message;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Save content to localStorage
+        function saveContent() {
+            const content = document.getElementById('contentInput').value.trim();
+            
+            if (!content) {
+                showMessage('writeMessage', 'Please enter some content before saving.', 'error');
+                return;
+            }
+            
+            try {
+                // Save to localStorage
+                localStorage.setItem('savedContent', content);
+                showMessage('writeMessage', 'Content saved successfully!', 'success');
+                document.getElementById('contentInput').value = '';
+            } catch (e) {
+                showMessage('writeMessage', 'Error saving content: ' + e.message, 'error');
+            }
+        }
+
+        // Load content from localStorage
+        function loadContent() {
+            try {
+                const content = localStorage.getItem('savedContent');
+                
+                if (content) {
+                    document.getElementById('displayText').textContent = content;
+                    document.getElementById('contentDisplay').style.display = 'block';
+                    showMessage('readMessage', 'Content loaded successfully!', 'success');
+                } else {
+                    showMessage('readMessage', 'No content found. Please save some content first.', 'error');
+                }
+            } catch (e) {
+                showMessage('readMessage', 'Error loading content: ' + e.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
